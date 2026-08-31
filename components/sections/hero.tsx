@@ -1,7 +1,12 @@
+'use client'
+
 import Link from 'next/link'
 import { ArrowRight, Sparkles } from 'lucide-react'
+import { useApp } from '@/components/providers'
 
 export function Hero() {
+  const { t } = useApp()
+
   return (
     <section
       id="home"
@@ -22,21 +27,17 @@ export function Hero() {
         <div>
           <span className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-accent px-3 py-1 text-xs font-medium text-accent-foreground">
             <Sparkles className="size-3.5 text-gold" />
-            Software Studio &amp; Portfolio
+            {t.hero.badge}
           </span>
 
           <h1 className="mt-6 font-serif text-4xl font-semibold leading-[1.05] tracking-tight text-foreground text-balance sm:text-5xl md:text-6xl">
             Karangwa Djariru
           </h1>
 
-          <p className="mt-4 text-lg font-medium text-primary">
-            Vue.js Master · Debug Hunter · Software Tester · Design Expert
-          </p>
+          <p className="mt-4 text-lg font-medium text-primary">{t.hero.role}</p>
 
           <p className="mt-5 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">
-            Vue.js Master — Building scalable software with purpose. I craft resilient
-            interfaces, hunt down elusive bugs, and design systems that stand the test of
-            real-world use.
+            {t.hero.intro}
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -44,23 +45,19 @@ export function Hero() {
               href="/#portfolio"
               className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
             >
-              View portfolio
+              {t.hero.viewPortfolio}
               <ArrowRight className="size-4" />
             </Link>
             <Link
               href="/#contact"
               className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-medium text-foreground transition-colors hover:border-gold hover:text-primary"
             >
-              Get in touch
+              {t.hero.getInTouch}
             </Link>
           </div>
 
           <dl className="mt-12 grid max-w-md grid-cols-3 gap-6">
-            {[
-              { value: 'Vue.js', label: 'Core Specialty' },
-              { value: 'Full Stack', label: 'End to End' },
-              { value: 'QA First', label: 'Tested & Reliable' },
-            ].map((stat) => (
+            {t.hero.stats.map((stat) => (
               <div key={stat.label}>
                 <dt className="font-serif text-xl font-semibold text-primary">{stat.value}</dt>
                 <dd className="mt-1 text-xs text-muted-foreground">{stat.label}</dd>
@@ -77,7 +74,7 @@ export function Hero() {
             <span className="font-serif text-8xl font-semibold text-primary-foreground">KD</span>
             <span className="mt-4 h-px w-16 bg-gold" />
             <span className="mt-4 text-xs uppercase tracking-[0.3em] text-gold">
-              Est. Excellence
+              {t.hero.medallionTag}
             </span>
           </div>
         </div>

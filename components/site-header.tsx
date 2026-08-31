@@ -3,12 +3,22 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
-import { NAV_LINKS } from '@/lib/content'
+import { useApp } from '@/components/providers'
+import { ThemeToggle, LanguageToggle } from '@/components/site-controls'
 import { cn } from '@/lib/utils'
 
 export function SiteHeader() {
+  const { t } = useApp()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+
+  const navLinks = [
+    { label: t.nav.home, href: '/#home' },
+    { label: t.nav.about, href: '/#about' },
+    { label: t.nav.portfolio, href: '/#portfolio' },
+    { label: t.nav.blog, href: '/blog' },
+    { label: t.nav.contact, href: '/#contact' },
+  ]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
@@ -40,7 +50,7 @@ export function SiteHeader() {
         </Link>
 
         <ul className="hidden items-center gap-8 md:flex">
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
@@ -52,28 +62,35 @@ export function SiteHeader() {
           ))}
         </ul>
 
-        <Link
-          href="/#contact"
-          className="hidden rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 md:inline-flex"
-        >
-          Let&apos;s talk
-        </Link>
+        <div className="hidden items-center gap-3 md:flex">
+          <LanguageToggle />
+          <ThemeToggle />
+          <Link
+            href="/#contact"
+            className="inline-flex rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            {t.nav.cta}
+          </Link>
+        </div>
 
-        <button
-          type="button"
-          className="inline-flex size-9 items-center justify-center rounded-md text-foreground md:hidden"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-label="Toggle navigation menu"
-        >
-          {open ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
+          <button
+            type="button"
+            className="inline-flex size-9 items-center justify-center rounded-md text-foreground"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-label={t.nav.menu}
+          >
+            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+          </button>
+        </div>
       </nav>
 
       {open && (
         <div className="border-t border-border bg-background md:hidden">
           <ul className="mx-auto flex max-w-6xl flex-col px-5 py-2">
-            {NAV_LINKS.map((link) => (
+            {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
@@ -84,6 +101,9 @@ export function SiteHeader() {
                 </Link>
               </li>
             ))}
+            <li className="border-t border-border py-4">
+              <LanguageToggle />
+            </li>
           </ul>
         </div>
       )}

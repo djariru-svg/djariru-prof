@@ -1,7 +1,10 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Inter, Fraunces } from 'next/font/google'
+import { AppProviders } from '@/components/providers'
 import './globals.css'
+
+const themeInitScript = `(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}if(t==='dark'){document.documentElement.classList.add('dark');}var l=localStorage.getItem('lang');if(l){document.documentElement.setAttribute('lang',l);}}catch(e){}})();`
 
 const inter = Inter({
   subsets: ['latin'],
@@ -41,8 +44,11 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'light',
-  themeColor: '#13224a',
+  colorScheme: 'light dark',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f7f8fb' },
+    { media: '(prefers-color-scheme: dark)', color: '#13224a' },
+  ],
 }
 
 export default function RootLayout({
@@ -52,8 +58,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${fraunces.variable} bg-background`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="font-sans antialiased">
-        {children}
+        <AppProviders>{children}</AppProviders>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

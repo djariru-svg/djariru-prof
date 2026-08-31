@@ -1,19 +1,22 @@
-import { PROJECTS } from '@/lib/content'
-import { SectionHeading } from './about'
+'use client'
+
 import { ArrowUpRight } from 'lucide-react'
+import { useApp } from '@/components/providers'
+import { SectionHeading } from './about'
 
 export function Portfolio() {
+  const { t } = useApp()
+
   return (
     <section id="portfolio" className="scroll-mt-16 py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
-        <SectionHeading eyebrow="Portfolio" title="Selected work & projects" />
+        <SectionHeading eyebrow={t.portfolio.eyebrow} title={t.portfolio.title} />
         <p className="mt-4 max-w-2xl text-pretty leading-relaxed text-muted-foreground">
-          A selection of projects spanning frontend architecture, full-stack systems, developer
-          tooling, and automation — each built with a focus on scale, reliability, and clean design.
+          {t.portfolio.intro}
         </p>
 
         <div className="mt-12 grid gap-6 md:grid-cols-2">
-          {PROJECTS.map((project) => (
+          {t.portfolio.projects.map((project) => (
             <article
               key={project.title}
               className="group relative flex flex-col rounded-2xl border border-border bg-card p-7 transition-all hover:border-gold/50 hover:shadow-[0_1px_0_0_var(--gold)]"
